@@ -1,0 +1,43 @@
+doctype
+
+html
+    head
+        include ./head.pug
+        link(href='./../public/css/app.css', rel='stylesheet')
+        script(src='./../public/js/schedules.js')
+
+
+    body
+        include ./navbar.pug
+
+        div.container
+            if pageData && pageData.name
+                    h4 Welcome #{pageData.name},
+            br
+            p Please select a time for your interview and click submit.
+            
+            h2.primary_font Available schedules
+            .list-group
+                if pageData && pageData.schedules
+                    for event in pageData.schedules
+                        a.list-group-item(href='#',id=event._id) #{event.time}
+            button#submit.btn.btn-primary.btn-md.pull-right(type='button', data-toggle='modal', data-target='#confModal',disabled=true) Submit
+
+
+        //- Modal
+        div#confModal.modal.fade(role='dialog')
+            div.modal-dialog
+                //- Modal content
+                div.modal-content
+                    div.modal-header
+                        button.close(type='button', data-dismiss='modal') ×
+                        h2.modal-title.primary_font Confirm selection
+                    div.modal-body
+                        h4 Current selection: 
+                            mark#currSel
+                        p 
+                        | Are you sure you want to confirm this interview time?  
+                        strong Once submited you won't be able to modify your selection.
+                    div.modal-footer
+                        button#confirm.btn.btn-primary(type='button', data-dismiss='modal') Confirm
+                        button.btn.btn-default(type='button', data-dismiss='modal') Cancel

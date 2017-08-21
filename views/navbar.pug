@@ -1,0 +1,26 @@
+//- NAV-BAR
+link(href='./../public/css/navbar.css', rel='stylesheet')
+nav.navbar.navbar-light
+  .container-fluid
+    .navbar-header
+      a.navbar-brand(href='/home') US-MEX FoCUS
+    ul.nav.navbar-nav
+      li.active
+        a(href='/home') Home
+      li
+        a(href='/schedules') Schedule Interview
+    if login
+      ul.nav.navbar-nav.pull-right
+        li.dropdown
+          a.dropdown-toggle(href='#',data-toggle='dropdown') Pedro
+            span.caret
+              ul.dropdown-menu(style='right: 0; left: auto;')
+                li
+                  a(href="/logout") Sign out
+        
+        
+!= messages('message',locals)
+if errors
+  each error,i in errors
+      div.alert.alert-danger #{error.msg}
+

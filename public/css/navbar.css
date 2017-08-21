@@ -1,0 +1,18 @@
+.navbar {
+    margin-bottom: 5;
+    background-color: #337AB7;
+    color:#FFFFFF;
+}
+.navbar a{
+    color: #FFFF;
+}
+
+.navbar .brand, .navbar .nav > li > a {
+    background-color:#337AB7;
+    color: #FFFFFF;
+}
+
+.nav .open a, .nav .open a:focus, .nav .open a:active, ul.dropdown-menu,ul.dropdown-menu a:hover{
+    background-color:#337AB7;
+    color: #FFFFFF;
+}
