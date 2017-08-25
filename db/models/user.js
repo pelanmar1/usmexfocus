@@ -13,7 +13,8 @@ var userSchema = new Schema({
   username: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   admin: Boolean,
-  event: {type: mongoose.Schema.Types.ObjectId, ref: 'Event'},
+  assisting_event: {type: mongoose.Schema.Types.ObjectId, ref: 'Event'},
+  org_event:[{type: mongoose.Schema.Types.ObjectId, ref: 'Event'}],
   created_at: Date,
   updated_at: Date
 });
@@ -36,11 +37,13 @@ userSchema.pre('save', function(next) {
     });
     
   });
-
+  
+/*
 userSchema.pre('remove', function(next) {
-    Event.remove({attende: this._id}).exec();
+    Event.remove({$or:[{attende: this._id},{organizer:this._id}]}).exec();
     next();
 });
+*/
 
 userSchema.methods.comparePassword = function(candidatePassword, cb) {
     bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
@@ -49,8 +52,10 @@ userSchema.methods.comparePassword = function(candidatePassword, cb) {
     });
 };
 
-
-userSchema.methods.addEventIfNone = function(eventId,cb){
+userSchema.methods.isAdmin = function(){
+    return this.admin;
+}
+userSchema.methods.addAssistEventIfNone = function(eventId,cb){
     /*
         ERROR CODES:
         0: Event was successfully added.
@@ -62,7 +67,7 @@ userSchema.methods.addEventIfNone = function(eventId,cb){
         Event.findOneAndUpdate({_id:eventId},{attende:this._id},function(err){
             if(err)
                 return cb(err,1);
-            user.event=eventId;
+            user.assisting_event=eventId;
             user.save(function(err){
                 if(err)
                     return cb(err,1);
@@ -72,7 +77,32 @@ userSchema.methods.addEventIfNone = function(eventId,cb){
     }else{
         return cb(null,2);
     }
-    
+}
+
+userSchema.methods.addOrgEventIfNone = function(eventId,cb){
+    /*
+        ERROR CODES:
+        0: Event was successfully added.
+        1: Internal ERROR.
+        2: User already has an event assigned.
+    */
+    var user = this;
+    var orgEvents = user.org_event;
+    // Check if schedule allows
+    if(true){
+        Event.findOneAndUpdate({_id:eventId},{organizer:this._id},function(err){
+            if(err)
+                return cb(err,1);
+            user.org_event=eventId;
+            user.save(function(err){
+                if(err)
+                    return cb(err,1);
+                return cb(null,0);
+            });
+        });
+    }else{
+        return cb(null,2);
+    }
 }
 
 

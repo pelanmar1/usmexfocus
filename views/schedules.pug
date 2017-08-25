@@ -5,15 +5,10 @@ html
         include ./head.pug
         link(href='./../public/css/app.css', rel='stylesheet')
         script(src='./../public/js/schedules.js')
-
-
     body
         include ./navbar.pug
 
         div.container
-            if pageData && pageData.name
-                    h4 Welcome #{pageData.name},
-            br
             p Please select a time for your interview and click submit.
             
             h2.primary_font Available schedules

@@ -48,13 +48,6 @@ function blockSubmit(){
         $('#submit').prop('disabled', activeListItems==0);
         
     });
-    /*
-    $('.list-group-item').on('change', function () {
-        var activeListItems =$('.list-group-item.active').length;
-        $('#submit').prop('disabled', activeListItems==0);
-        alert('change');
-    });
-            */
-
+    
 
 }

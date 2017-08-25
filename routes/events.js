@@ -8,10 +8,21 @@ module.exports = function(passport){
 
     router.get('/',hp.isLoggedIn,function(req,res){
         var user = req.user;
-        var name;
-        if(user.name && user.name.fname){
-            name = user.name.fname;
+        if(user.admin==false){
+            res.redirect('events/show');
         }
+        else{
+            res.redirect('events/show_adm');
+        }
+    });
+
+
+
+
+    
+
+    router.get('/show',hp.isLoggedIn,function(req,res){
+        var user = req.user;
         getScheduledEvents(user._id,function(err,schedules){
             if(err || !schedules){
                 console.log(err);
@@ -19,19 +30,23 @@ module.exports = function(passport){
             }
             if(schedules.length ==0)
                 req.flash('danger','You have no scheduled events at the moment.');   
-            res.render('home',{pageData: {name:name,schedules:schedules}});
+            res.render('events',{pageData: {name:user.name.fname,schedules:schedules}});
         });
-    });
+        
+    })
 
-
-    router.post('/',hp.isLoggedIn,function(req,res){
-        if(!req.body || !req.body.data) return;
-        var eventId = req.body.data;
+    router.get('/show_adm',hp.isLoggedAndAdmin,function(req,res){
         var user = req.user;
-        var id = user._id;
-        //var id = user._id;
-                
-    });
+        getScheduledEvents(user._id,function(err,schedules){
+            if(err || !schedules){
+                console.log(err);
+                req.flash('danger','There was a problem loading your events.');
+            }
+            if(schedules.length ==0)
+                req.flash('danger','You have no scheduled events at the moment.');   
+            res.render('events_admin',{pageData: {name:user.name.fname,schedules:schedules}});
+        });
+    })
 
     return router;
     

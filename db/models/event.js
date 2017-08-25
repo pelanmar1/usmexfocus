@@ -9,6 +9,7 @@ mongoose.connect(dbConfig.url);
 var eventSchema = new Schema({
     time: { type: Date, required: true},
     attende: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+    organizer:{type: mongoose.Schema.Types.ObjectId, ref:'User'},
     created_at: Date,
     updated_at: Date
 });
@@ -22,11 +23,12 @@ eventSchema.pre('save', function(next) {
     next();
   });
 
+/*
 eventSchema.pre('remove', function(next) {
-    User.remove({event: this._id}).exec();
+    User.remove({$or:[{assisting_event: this._id},{org_event:this._id}]}).exec();
     next();
 });
-
+*/
 eventSchema.methods.getTime = function(){
     return moment(this.time)
 }

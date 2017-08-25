@@ -1,0 +1,21 @@
+doctype
+
+html
+    head
+        include ./head.pug
+        link(href='./../public/css/app.css', rel='stylesheet')
+
+    body
+        include ./navbar.pug
+
+        div.container
+                br
+                p Showing your sheduled events:
+                
+                h2.primary_font Scheduled Events
+                .list-group
+                    if pageData && pageData.schedules
+                        for event in pageData.schedules
+                            a.list-group-item(href='#',id=event._id) #{event.time}
+
+    

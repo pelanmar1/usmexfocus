@@ -2,17 +2,18 @@
 link(href='./../public/css/navbar.css', rel='stylesheet')
 nav.navbar.navbar-light
   .container-fluid
-    .navbar-header
-      a.navbar-brand(href='/home') US-MEX FoCUS
+    #nav-h.navbar-header
+      a.navbar-brand(href='/events') US-MEX FoCUS
     ul.nav.navbar-nav
       li.active
-        a(href='/home') Home
-      li
-        a(href='/schedules') Schedule Interview
+        a(href='/events') My Events
+      if login
+        li
+          a(href='/schedules') Schedule Interview
     if login
-      ul.nav.navbar-nav.pull-right
+      ul#nav-dd.nav.navbar-nav.pull-right
         li.dropdown
-          a.dropdown-toggle(href='#',data-toggle='dropdown') Pedro
+          a.dropdown-toggle(href='#',data-toggle='dropdown') #{pageData.name}
             span.caret
               ul.dropdown-menu(style='right: 0; left: auto;')
                 li

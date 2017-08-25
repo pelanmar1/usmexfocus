@@ -80,11 +80,11 @@ app.use(function (req, res, next) {
 // Setup routers
 var schedulesRouter = require('./routes/schedules.js')(passport);
 var loginRouter = require('./routes/login.js')(passport);
-var homeRouter = require('./routes/home.js')(passport);
+var eventsRouter = require('./routes/events.js')(passport);
 
 app.use('/login',loginRouter);
 app.use('/schedules',schedulesRouter);
-app.use('/home',homeRouter);
+app.use('/events',eventsRouter);
 app.get('/',function(req,res){
   res.redirect('/schedules');
 });
