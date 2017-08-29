@@ -3,7 +3,7 @@ var dbConfig = require('./../../config/db.js');
 var Schema = mongoose.Schema;
 var User = require('./user.js');
 mongoose.Promise = global.Promise;
-mongoose.connect(dbConfig.url);
+mongoose.connect(dbConfig.url || process.env.MONGOLAB_URI);
 
 // create a schema
 var eventSchema = new Schema({
