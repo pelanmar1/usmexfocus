@@ -18,7 +18,11 @@ html
                 .list-group
                     if pageData && pageData.schedules
                         for event in pageData.schedules
-                            a.list-group-item(href='#',id=event._id) #{event.time}
+                            if event.attende
+                                a.list-group-item(href='#',id=event._id,style="background-color:#337AB7;color: #FFFFFF;") #{event.time} 
+                                    strong.pull-right CONFIRMED: #{event.attende}
+                            else
+                                a.list-group-item(href='#',id=event._id) #{event.time}
 
         .container
             include ./add_event.pug

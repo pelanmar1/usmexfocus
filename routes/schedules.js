@@ -12,8 +12,9 @@ module.exports = function(passport){
         if(user.name && user.name.fname){
             name = user.name.fname;
         }
-        if(user.event){
-            
+        if(user.admin==true){
+            res.redirect('events')
+            return;
         }
         getAvailableSchedules(function(err,schedules){
             if(err || !schedules){
@@ -31,7 +32,7 @@ module.exports = function(passport){
         if(!req.body || !req.body.data) return;
         var eventId = req.body.data;
         var user = req.user;
-        user.addEventIfNone(eventId,function(err,errCode){
+        user.addAssistEventIfNone(eventId,function(err,errCode){
             var msg = getErrorMessage(errCode);
             if(err){
                 console.log(err);

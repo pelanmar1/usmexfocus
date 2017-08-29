@@ -10,7 +10,7 @@ module.exports = function(passport){
     });
 
     router.post('/',passport.authenticate('login', {
-        successRedirect: '/schedules',
+        successRedirect: '/events',
         failureRedirect: '/login',
         badRequestMessage : 'Bad request',
         failureFlash: true

@@ -7,7 +7,7 @@ nav.navbar.navbar-light
     ul.nav.navbar-nav
       li.active
         a(href='/events') My Events
-      if login
+      if login && user.admin==false
         li
           a(href='/schedules') Schedule Interview
     if login

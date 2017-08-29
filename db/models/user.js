@@ -79,30 +79,66 @@ userSchema.methods.addAssistEventIfNone = function(eventId,cb){
     }
 }
 
-userSchema.methods.addOrgEventIfNone = function(eventId,cb){
+userSchema.methods.checkValidTime = function(time,cb){
+    var momTime = moment(time);
+    var startTime = moment(momTime).subtract(59, 'm');
+    var endTime = moment(momTime).add(59,'m');
+    var user = this;
+    Event.find({$and:[{organizer:user._id},
+    {'time':{"$gte": startTime, "$lt": endTime}}]
+}).exec(function(err,evs){
+    if(err){
+        console.log(err);
+        return cb(err,false);
+    }else{
+        console.log(evs);
+        return cb(null,evs!=null && evs.length==0);
+    }
+    });
+}
+
+userSchema.methods.addOrgEventIfNone = function(time,cb){
     /*
         ERROR CODES:
         0: Event was successfully added.
         1: Internal ERROR.
         2: User already has an event assigned.
     */
+    var momTime = moment(time);
     var user = this;
-    var orgEvents = user.org_event;
+    var newEvent;
     // Check if schedule allows
-    if(true){
-        Event.findOneAndUpdate({_id:eventId},{organizer:this._id},function(err){
-            if(err)
-                return cb(err,1);
-            user.org_event=eventId;
-            user.save(function(err){
+    user.checkValidTime(time,function(err,isValidTime){
+        if(err){
+            console.log(err);
+            return cb(err,null);
+        }
+        if(isValidTime){
+            newEvent= new Event({
+                time:time,
+                organizer:user._id
+            });
+            newEvent.save(function(err,ev){
+          if(err){
+            console.log(err);
+            return cb(err,1);
+          }
+          user.org_event.push(ev._id);
+          user.save(function(err){
                 if(err)
                     return cb(err,1);
+                console.log('Event with id '+ev._id+' created.')
                 return cb(null,0);
             });
-        });
-    }else{
-        return cb(null,2);
-    }
+    });
+        }else{
+            console.log('User already has an event which overlaps.');
+            return cb(null,2);
+        }
+
+    });
+        
+    
 }
 
 
