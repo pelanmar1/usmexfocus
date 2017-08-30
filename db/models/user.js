@@ -16,7 +16,8 @@ var userSchema = new Schema({
   assisting_event: {type: mongoose.Schema.Types.ObjectId, ref: 'Event'},
   org_event:[{type: mongoose.Schema.Types.ObjectId, ref: 'Event'}],
   created_at: Date,
-  updated_at: Date
+  updated_at: Date,
+  email:String
 });
 
 userSchema.pre('save', function(next) {

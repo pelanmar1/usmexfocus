@@ -5,6 +5,7 @@ var User = require('./user.js');
 mongoose.Promise = global.Promise;
 mongoose.connect(dbConfig.url || process.env.MONGOLAB_URI);
 
+
 // create a schema
 var eventSchema = new Schema({
     time: { type: Date, required: true},
