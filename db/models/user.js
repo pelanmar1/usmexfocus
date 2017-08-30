@@ -82,8 +82,8 @@ userSchema.methods.addAssistEventIfNone = function(eventId,cb){
 
 userSchema.methods.checkValidTime = function(time,cb){
     var momTime = moment(time);
-    var startTime = moment(momTime).subtract(59, 'm');
-    var endTime = moment(momTime).add(59,'m');
+    var startTime = moment(momTime).subtract(44, 'm');
+    var endTime = moment(momTime).add(44,'m');
     var user = this;
     Event.find({$and:[{organizer:user._id},
     {'time':{"$gte": startTime, "$lt": endTime}}]

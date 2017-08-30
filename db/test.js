@@ -26,7 +26,8 @@ Event.find({'time':{"$gte": moment('2017-09-01T17:00:00.000Z').subtract(59, 'm')
       'name':{fname:names[i]},
       'username':usernames[i],
       'password':pass[i],
-      'email':email[i]
+      'email':email[i],
+      'admin':true
     })
     //console.log(JSON.stringify(staff));
     staff.save(function(err){
