@@ -2,17 +2,38 @@ var mongoose = require('./mongoose.js');
 var User = require('./models/user.js');
 var Event = require('./models/event.js');
 var moment = require('moment');
+var aplicantes = require('./../users.js');
 
-/*
-Event.find({'time':{"$gte": moment('2017-09-01T17:00:00.000Z').subtract(59, 'm'), "$lt": moment('2017-09-01T17:00:00.000Z').add(1,'m')}}).exec(function(err,evs){
-    if(err)
-      console.log(err);
-    else
-      console.log(evs);
-});
-*/
 //createTestData();
 //createTestUser();
+//addApplicants();
+
+function addApplicants(){
+    var i;
+    var temp;
+    for(i=0;i<aplicantes.length;i++){
+      temp = aplicantes[i];
+      user = new User({
+        'name':{
+          'fname':temp.fname,
+          'lname':temp.lname
+        },
+        'username':temp.email,
+        'email':temp.email,
+        'tel':temp.tel,
+        'password':temp.password,
+        'admin':false
+      });
+      user.save(function(err){
+        if(err)
+          console.log(err);
+        else
+          console.log('Aplicante '+user.email+' ha sido creado.');
+      })
+    }
+
+}
+
 function createTestUser(){
   var staff;
   staff = new User({
