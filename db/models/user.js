@@ -69,16 +69,29 @@ userSchema.methods.addAssistEventIfNone = function(eventId,cb){
     */
     var user = this;
     if(!user.assisting_event){
-        Event.findOneAndUpdate({_id:eventId},{attende:this._id},function(err){
-            if(err)
-                return cb(err,1);
-            user.assisting_event=eventId;
-            user.save(function(err){
+        Event.findOne({
+            $and:[
+                {_id:eventId},
+                {$or: [{attende: {$exists: false}},{attende: null}]}]
+            },function(err,event){
                 if(err)
                     return cb(err,1);
-                return cb(null,0);
+                if(!event)
+                    return cb(null,1);
+                event.attende=user._id;
+                event.save(function(err){
+                    if(err)
+                        return cb(err,1); 
+                    user.assisting_event=eventId;
+                    user.save(function(err){
+                        if(err)
+                            return cb(err,1);
+                        return cb(null,0);
+                    })                          
+                });
+                                     
+                
             });
-        });
     }else{
         return cb(null,2);
     }

@@ -5,8 +5,24 @@ var moment = require('moment');
 var aplicantes = require('./../users.js');
 
 //createTestData();
-//createTestUser();
+createTestUser();
 //addApplicants();
+var staff;
+staff = new User({
+  'name':{fname:'Gary Soto'},
+  'username':'gary',
+  'password':'gary',
+  'email':'gary@gmail.com',
+  //'admin':false,
+  'tel':'+5215565606962'
+})
+staff.save(function(err){
+  if (err){
+    console.log(err);
+  }else
+    console.log('User created.');
+  
+});
 
 function addApplicants(){
     var i;
