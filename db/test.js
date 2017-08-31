@@ -5,7 +5,7 @@ var moment = require('moment');
 var aplicantes = require('./../users.js');
 
 //createTestData();
-createTestUser();
+//createTestUser();
 //addApplicants();
 var staff;
 staff = new User({
