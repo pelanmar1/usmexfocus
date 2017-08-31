@@ -1,4 +1,4 @@
-var mongoose = require('mongoose');
+var mongoose = require('./mongoose.js');
 var User = require('./models/user.js');
 var Event = require('./models/event.js');
 var moment = require('moment');
@@ -12,6 +12,40 @@ Event.find({'time':{"$gte": moment('2017-09-01T17:00:00.000Z').subtract(59, 'm')
 });
 */
 //createTestData();
+//createTestUser();
+function createTestUser(){
+  var staff;
+  staff = new User({
+    'name':{fname:'Simbad el marino'},
+    'username':'simbad',
+    'password':'simbad',
+    'email':'simbad@gmail.com',
+    //'admin':false,
+    'tel':'+5215565606962'
+  })
+  staff.save(function(err){
+    if (err){
+      console.log(err);
+    }else
+      console.log('User created.');
+    
+  });
+  staff = new User({
+    'name':{fname:'Bob Dylan'},
+    'username':'dylan',
+    'password':'dylan',
+    'email':'dylan@gmail.com',
+    'admin':true
+  })
+  //console.log(JSON.stringify(staff));
+  staff.save(function(err){
+    if (err){
+      console.log(err);
+    }else
+      console.log('User created.');
+    
+  });
+}
 
 
  function createFocusStaff(){
@@ -41,7 +75,6 @@ Event.find({'time':{"$gte": moment('2017-09-01T17:00:00.000Z').subtract(59, 'm')
   }
 }
 
-createFocusStaff();
 
 function createTestData(){
     admin = new User({

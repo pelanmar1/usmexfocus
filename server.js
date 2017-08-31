@@ -7,17 +7,18 @@ var bodyParser = require('body-parser');
 var passport = require('passport');
 var expressSession = require('express-session');
 var expressValidator = require('express-validator');
-var dbConfig = require('./config/db.js');
-var mongoose = require('mongoose');
-mongoose.Promise = require('bluebird');
+//var dbConfig = require('./config/db.js');
+//var mongoose = require('mongoose');
+//mongoose.Promise = require('bluebird');
+
 
 // Setup view engine
 app.set('views', __dirname + '/views');
 app.set('view engine', 'pug')
 
 // Connect to db
-mongoose.connect(dbConfig.url);
-
+//mongoose.connect(dbConfig.url);
+var mongoose = require('./db/mongoose.js');
 
 // Setup static files
 app.use("/public",express.static(path.join(__dirname, '/public')));

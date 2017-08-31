@@ -1,10 +1,12 @@
-var mongoose = require('mongoose');
-var dbConfig = require('./../../config/db.js');
+//var mongoose = require('mongoose');
+//var dbConfig = require('./../../config/db.js');
+
+//mongoose.Promise = global.Promise;
+//mongoose.connect(dbConfig.url || process.env.MONGOLAB_URI);
+var mongoose = require('./../mongoose.js');
+
 var Schema = mongoose.Schema;
 var User = require('./user.js');
-mongoose.Promise = global.Promise;
-mongoose.connect(dbConfig.url || process.env.MONGOLAB_URI);
-
 
 // create a schema
 var eventSchema = new Schema({

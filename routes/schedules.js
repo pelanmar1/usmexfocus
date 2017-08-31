@@ -2,11 +2,13 @@ var express = require('express');
 var hp = require('./../helpers/middlewares.js');
 var Event = require('./../db/models/event.js');
 var User = require('./../db/models/user.js');
+var moment = require('moment-timezone');
 
 module.exports = function(passport){
     var router = express.Router();
 
     router.get('/',hp.isLoggedIn,function(req,res){
+        res.locals.UTC2CDT = UTC2CDT;        
         var user = req.user;
         var name = "hacker"
         if(user.name && user.name.fname){
@@ -84,4 +86,8 @@ function getAvailableSchedules(done){
 }
 
 
- 
+function UTC2CDT(time){
+    var timeCDT =time;
+    timeCDT = moment(timeCDT).tz('America/Mexico_City').format('dddd MMM DD YYYY HH:mm [GMT]Z (z)')
+    return timeCDT;
+}

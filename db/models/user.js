@@ -1,4 +1,4 @@
-var mongoose = require('mongoose');
+var mongoose = require('./../mongoose.js');
 var Schema = mongoose.Schema;
 var bcrypt = require('bcrypt');
 var Event = require('./event.js');
@@ -12,12 +12,16 @@ var userSchema = new Schema({
         lname: String},
   username: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  admin: Boolean,
+  admin: {
+    type: Boolean,
+    default: false
+    },
   assisting_event: {type: mongoose.Schema.Types.ObjectId, ref: 'Event'},
   org_event:[{type: mongoose.Schema.Types.ObjectId, ref: 'Event'}],
   created_at: Date,
   updated_at: Date,
-  email:String
+  email:String,
+  tel:String
 });
 
 userSchema.pre('save', function(next) {
@@ -64,7 +68,7 @@ userSchema.methods.addAssistEventIfNone = function(eventId,cb){
         2: User already has an event assigned.
     */
     var user = this;
-    if(!user.event){
+    if(!user.assisting_event){
         Event.findOneAndUpdate({_id:eventId},{attende:this._id},function(err){
             if(err)
                 return cb(err,1);

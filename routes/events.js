@@ -2,6 +2,8 @@ var express = require('express');
 var hp = require('./../helpers/middlewares.js');
 var Event = require('./../db/models/event.js');
 var User = require('./../db/models/user.js');
+var moment = require('moment-timezone');
+
 
 module.exports = function(passport){
     var router = express.Router();
@@ -19,6 +21,7 @@ module.exports = function(passport){
     
 
     router.get('/show',hp.isLoggedIn,function(req,res){
+        res.locals.UTC2CDT = UTC2CDT;        
         var user = req.user;
         if(user.admin==true){
             res.redirect('show_adm');
@@ -37,6 +40,8 @@ module.exports = function(passport){
     })
 
     router.get('/show_adm',hp.isLoggedAndAdmin,function(req,res){
+        res.locals.formatAttende=formatAttende;
+        res.locals.UTC2CDT = UTC2CDT;
         var user = req.user;
         if(user.admin==false){
             res.redirect('show');
@@ -99,11 +104,38 @@ function getScheduledEvents(userId,done){
 }
 
 function getOrgEvents(userId,done){
-        Event.find({organizer:userId},function(err,results){
+        /*Event.find({organizer:userId},function(err,results){
             if(err){
                return done(err,null);
             }
             return done(null,results);
         });
+        */
+        Event.find({organizer:userId}).populate('attende').exec(function(err,results){
+            if(err){
+               return done(err,null);
+            }
+            return done(null,results);
+        });
+}
+function formatAttende(att){
+    var text='';
+    if (att==null)
+        return;
+    if(att.name&&att.name.fname)
+        text+=att.name.fname;
+        if(att.name.lname)
+            text+=att.name.lname;
+            if(att.email)
+                text+='\n'+att.email;
+                if(att.tel)
+                    text+='\n'+att.tel;
+                
+    return text;
+    }
 
+function UTC2CDT(time){
+    var timeCDT =time;
+    timeCDT = moment(timeCDT).tz('America/Mexico_City').format('dddd MMM DD YYYY HH:mm [GMT]Z (z)')
+    return timeCDT;
 }

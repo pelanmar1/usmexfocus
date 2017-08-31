@@ -16,6 +16,6 @@ html
                 .list-group
                     if pageData && pageData.schedules
                         for event in pageData.schedules
-                            a.list-group-item(href='#',id=event._id) #{event.time}
+                            a.list-group-item(href='#',id=event._id) #{UTC2CDT(event.time)}
 
     
