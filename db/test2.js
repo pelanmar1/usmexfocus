@@ -38,6 +38,13 @@ admin1 = {
 //printNewUser(user2);
 //printNewUser(admin1);
 
+admin = new User({
+    name:{fname: 'Pedro',
+          lname: 'Lanzagorta'},
+    username:'pelanmar1',
+    password: 'clapton1' 
+    });
+
 
 function printNewUser(user){
     var currentDate = new Date();    

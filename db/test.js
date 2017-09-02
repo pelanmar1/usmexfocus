@@ -74,7 +74,22 @@ function createTestUser(){
     'email':'dylan@gmail.com',
     'admin':true
   })
-  //console.log(JSON.stringify(staff));
+  staff.save(function(err){
+    if (err){
+      console.log(err);
+    }else
+      console.log('User created.');
+    
+  });
+  var staff;
+  staff = new User({
+    'name':{fname:'Gary Soto'},
+    'username':'gary',
+    'password':'gary',
+    'email':'gary@gmail.com',
+    //'admin':false,
+    'tel':'+5215565606962'
+  })
   staff.save(function(err){
     if (err){
       console.log(err);

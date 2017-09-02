@@ -22,9 +22,11 @@ module.exports = function(passport){
             if(err || !schedules){
                 console.log(err);
                 req.flash('danger','There was a problem loading available schedules.');
-            }
+                
+            }else{
             if(schedules.length ==0)
                 req.flash('danger','There are no schedules available at the moment.');   
+            }
             res.render('schedules',{pageData: {name:name,schedules:schedules}});
         });
     })
@@ -76,7 +78,8 @@ function getErrorMessage(errorCode){
 }
 
 function getAvailableSchedules(done){
-        Event.find({attende:{$exists:false}},function(err,results){
+        Event.find({$and:[{attende:{$exists:false}},{time:{$gte: new Date()}}]}
+        ,function(err,results){
             if(err){
                return done(err,null);
             }

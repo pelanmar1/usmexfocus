@@ -24,7 +24,7 @@ html
                                 title=formatAttende(event.attende)) #{UTC2CDT(event.time)}
                                     strong.pull-right CONFIRMED: #{event.attende._id}
                             else
-                                a.list-group-item(href='#',id=event._id) #{event.time}
+                                a.list-group-item(href='#',id=event._id) #{UTC2CDT(event.time)}
                 
 
         .container
