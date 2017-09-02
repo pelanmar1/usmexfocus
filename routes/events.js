@@ -136,6 +136,8 @@ function formatAttende(att){
 
 function UTC2CDT(time){
     var timeCDT =time;
-    timeCDT = moment(timeCDT).tz('America/Mexico_City').format('dddd MMM DD YYYY HH:mm [GMT]Z (z)')
+    //timeCDT = moment(timeCDT).tz('America/Mexico_City').format('dddd MMM DD YYYY HH:mm [GMT]Z (z)')
+    timeCDT = moment(timeCDT).tz('America/Mexico_City').format('dddd MMM DD YYYY HH:mm (z)');
+    
     return timeCDT;
 }
